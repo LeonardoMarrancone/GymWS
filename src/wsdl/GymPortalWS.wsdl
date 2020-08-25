@@ -63,7 +63,7 @@
     <wsdl:message name="MsgErrore">
         <wsdl:part element="xsd1:ElementoErrore" name="errore"/>
     </wsdl:message>
-    <wsdl:message name="MsgAddRuoloResponse">
+    <wsdl:message name="MsgUpdateRuoloResponse">
         <wsdl:part name="successo" type="xsd:boolean"/>
     </wsdl:message>
     <wsdl:message name="MsgListaUtenti">
@@ -90,7 +90,7 @@
             <wsdl:output message="tns:MsgListaUtenti"/>
             <wsdl:fault message="tns:MsgErrore" name="erroreGenerale"/>
         </wsdl:operation>
-        <wsdl:operation name="addRuoloUtente">
+        <wsdl:operation name="updateRuoloUtente">
             <wsdl:input message="tns:MsgUtenteRuolo"/>
             <wsdl:output message="tns:MsgVoid"/>
             <wsdl:fault message="tns:MsgErrore" name="erroreGenerale"/>
@@ -120,8 +120,8 @@
                 <soap:fault name="erroreGenerale" use="literal"/>
             </wsdl:fault>
         </wsdl:operation>
-        <wsdl:operation name="addRuoloUtente">
-            <soap:operation soapAction="GymPortalWSInterface#addRuoloUtente"/>
+        <wsdl:operation name="updateRuoloUtente">
+            <soap:operation soapAction="GymPortalWSInterface#updateRuoloUtente"/>
             <wsdl:input>
                 <soap:body namespace="http://it.univaq.disim.GymREST.wsdl/gymportalws/data" use="literal"/>
             </wsdl:input>

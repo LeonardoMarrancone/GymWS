@@ -5,7 +5,6 @@
  */
 package it.univaq.disim.gymws;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,10 +20,7 @@ import wsdl.gymrest.disim.univaq.it.gymportalws.TipoListaUtente;
 import wsdl.gymrest.disim.univaq.it.gymportalws.TipoRuolo;
 import wsdl.gymrest.disim.univaq.it.gymportalws.TipoUtente;
 
-/**
- *
- * @author leonardomarrancone
- */
+
 @WebService(serviceName = "GymPortalWSMain", portName = "GymPortalWSSOAP", endpointInterface = "wsdl.gymrest.disim.univaq.it.gymportalws.GymPortalWSInterface", targetNamespace = "http://it.univaq.disim.GymREST.wsdl/GymPortalWS.wsdl", wsdlLocation = "WEB-INF/wsdl/GymPortalWS.wsdl")
 public class GymWSImpl {
 
@@ -32,13 +28,11 @@ public class GymWSImpl {
     private static final String userDB = "gymportal";
     private static final String pswDB = "gymportal";
     
-    
-    public static final String GET_UTENTI= "SELECT * FROM user"; 
-    public static final String ADD_RUOLO_UTENTE= "UPDATE user_role SET user_id=?, role_id=?";
     public static final String GET_UTENTE = "SELECT * FROM user WHERE id=?";
+    public static final String GET_UTENTI= "SELECT * FROM user"; 
     public static final String GET_RUOLI= "SELECT * FROM role"; 
-    
-    
+    public static final String UPDATE_RUOLO_UTENTE= "UPDATE user_role SET role_id=? WHERE user_id=?";
+        
     
     public wsdl.gymrest.disim.univaq.it.gymportalws.TipoListaUtente getUtenti() throws MsgErrore {
        
@@ -49,7 +43,7 @@ public class GymWSImpl {
             System.exit(1);
         }
             
-         TipoListaUtente listaUtenti = new TipoListaUtente();
+        TipoListaUtente listaUtenti = new TipoListaUtente();
         try (Connection connection = DriverManager.getConnection(urlDB,userDB,pswDB);
              Statement st = connection.createStatement();
              ResultSet rs = st.executeQuery(GET_UTENTI);) {
@@ -64,9 +58,7 @@ public class GymWSImpl {
                     utente.setUserName(rs.getString(7));
                     
                     listaUtenti.getUtente().add(utente);
-    }
-
-
+                }
         
         } catch (SQLException ex) {
             Logger.getLogger(GymWSImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,20 +69,18 @@ public class GymWSImpl {
         
     }
     
-    public void addRuoloUtente(long idUtente, long idRuolo) throws MsgErrore {
-
+    public void updateRuoloUtente(long idUtente, long idRuolo) throws MsgErrore {
+        
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.exit(1);
         }
-        
-      try (Connection connection = DriverManager.getConnection(urlDB,userDB,pswDB);
-             PreparedStatement st = connection.prepareStatement(ADD_RUOLO_UTENTE);) {
-
-            st.setLong(1, idUtente);
-            st.setLong(2, idRuolo);
+        try (Connection connection = DriverManager.getConnection(urlDB,userDB,pswDB);
+             PreparedStatement st = connection.prepareStatement(UPDATE_RUOLO_UTENTE);) {
+            st.setLong(1, idRuolo);
+            st.setLong(2, idUtente);
 
             st.execute();
 
@@ -102,7 +92,7 @@ public class GymWSImpl {
 
     public wsdl.gymrest.disim.univaq.it.gymportalws.TipoUtente getUtente(long id) throws MsgErrore {
         
-         try {
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -110,7 +100,6 @@ public class GymWSImpl {
         }
         
         TipoUtente utente = new TipoUtente();
-        
         try (Connection connection = DriverManager.getConnection(urlDB,userDB,pswDB);
              PreparedStatement st = connection.prepareStatement(GET_UTENTE);) {
             st.setLong(1,id);
@@ -141,25 +130,22 @@ public class GymWSImpl {
             System.exit(1);
         }
             
-         TipoListaRuolo listaRuoli = new TipoListaRuolo();
+        TipoListaRuolo listaRuoli = new TipoListaRuolo();
         try (Connection connection = DriverManager.getConnection(urlDB,userDB,pswDB);
              Statement st = connection.createStatement();
              ResultSet rs = st.executeQuery(GET_RUOLI);) {
-
-                while (rs.next()){
-                    TipoRuolo ruolo = new TipoRuolo();
-                    ruolo.setId(rs.getLong(1));
-                    ruolo.setRole(rs.getString(2));
+            
+            while (rs.next()){
+                TipoRuolo ruolo = new TipoRuolo();
+                ruolo.setId(rs.getLong(1));
+                ruolo.setRole(rs.getString(2));
                     
-                    listaRuoli.getRuolo().add(ruolo);
-    }
-
-
+                listaRuoli.getRuolo().add(ruolo);
+            }
         
         } catch (SQLException ex) {
             Logger.getLogger(GymWSImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         return listaRuoli;
         
     }
