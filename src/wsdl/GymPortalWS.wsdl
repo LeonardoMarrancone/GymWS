@@ -40,8 +40,8 @@
                     <xsd:element maxOccurs="1" minOccurs="1" name="role" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>
-            
-             <xsd:complexType name="TipoListaRuolo">
+
+            <xsd:complexType name="TipoListaRuolo">
                 <xsd:sequence>
                     <xsd:element
                             maxOccurs="unbounded"
@@ -50,7 +50,7 @@
                             type="xsd1:TipoRuolo"/>
                 </xsd:sequence>
             </xsd:complexType>
-            
+
             <xsd:complexType name="TipoErrore">
                 <xsd:sequence>
                     <xsd:element maxOccurs="1" minOccurs="1" name="code" type="xsd:int"/>
@@ -63,7 +63,7 @@
     <wsdl:message name="MsgErrore">
         <wsdl:part element="xsd1:ElementoErrore" name="errore"/>
     </wsdl:message>
-    <wsdl:message name="MsgUpdateRuoloResponse">
+    <wsdl:message name="MsgAddRuoloResponse">
         <wsdl:part name="successo" type="xsd:boolean"/>
     </wsdl:message>
     <wsdl:message name="MsgListaUtenti">
@@ -77,10 +77,10 @@
         <wsdl:part name="idRuolo" type="xsd:long"/>
     </wsdl:message>
     <wsdl:message name="MsgGetUtente">
-        <wsdl:part name="id" type="xsd:long"/>    
+        <wsdl:part name="id" type="xsd:long"/>
     </wsdl:message>
     <wsdl:message name="MsgUtente">
-       <wsdl:part name="utente" type="xsd1:TipoUtente"/>
+        <wsdl:part name="utente" type="xsd1:TipoUtente"/>
     </wsdl:message>
     <wsdl:message name="MsgVoid">
     </wsdl:message>
@@ -90,7 +90,7 @@
             <wsdl:output message="tns:MsgListaUtenti"/>
             <wsdl:fault message="tns:MsgErrore" name="erroreGenerale"/>
         </wsdl:operation>
-        <wsdl:operation name="updateRuoloUtente">
+        <wsdl:operation name="addRuoloUtente">
             <wsdl:input message="tns:MsgUtenteRuolo"/>
             <wsdl:output message="tns:MsgVoid"/>
             <wsdl:fault message="tns:MsgErrore" name="erroreGenerale"/>
@@ -100,7 +100,7 @@
             <wsdl:output message="tns:MsgUtente"/>
             <wsdl:fault message="tns:MsgErrore" name="erroreGenerale"/>
         </wsdl:operation>
-         <wsdl:operation name="getRuoli">
+        <wsdl:operation name="getRuoli">
             <wsdl:input message="tns:MsgVoid"/>
             <wsdl:output message="tns:MsgListaRuoli"/>
             <wsdl:fault message="tns:MsgErrore" name="erroreGenerale"/>
@@ -120,8 +120,8 @@
                 <soap:fault name="erroreGenerale" use="literal"/>
             </wsdl:fault>
         </wsdl:operation>
-        <wsdl:operation name="updateRuoloUtente">
-            <soap:operation soapAction="GymPortalWSInterface#updateRuoloUtente"/>
+        <wsdl:operation name="addRuoloUtente">
+            <soap:operation soapAction="GymPortalWSInterface#addRuoloUtente"/>
             <wsdl:input>
                 <soap:body namespace="http://it.univaq.disim.GymREST.wsdl/gymportalws/data" use="literal"/>
             </wsdl:input>
@@ -144,7 +144,7 @@
                 <soap:fault name="erroreGenerale" use="literal"/>
             </wsdl:fault>
         </wsdl:operation>
-         <wsdl:operation name="getRuoli">
+        <wsdl:operation name="getRuoli">
             <soap:operation soapAction="GymPortalWSInterface#getRuoli"/>
             <wsdl:input>
                 <soap:body namespace="http://it.univaq.disim.GymREST.wsdl/gymportalws/data" use="literal"/>
